@@ -1,5 +1,7 @@
 using HealthCheckAPI;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +29,20 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+builder.Services.AddCors(options => options.AddPolicy(name: "AngularPolicy", cfg => {
+  cfg.AllowAnyHeader();
+  cfg.AllowAnyMethod();
+  cfg.WithOrigins(builder.Configuration["AllowedCORS"]);
+}));
+
 app.UseAuthorization();
+
+app.UseCors("AngularPolicy");
 
 app.UseHealthChecks(new PathString("/api/health"), new CustomHealthCheckOptions());
 
 app.MapControllers();
+
+app.MapMethods("api/heartbeat", new[] { "HEAD" }, () => Results.Ok());
 
 app.Run();

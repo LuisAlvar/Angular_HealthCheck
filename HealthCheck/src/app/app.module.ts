@@ -41,7 +41,7 @@ import { ConnectionServiceModule, ConnectionServiceOptions, ConnectionServiceOpt
     {
       provide: ConnectionServiceOptionsToken,
       useValue: <ConnectionServiceOptions>{
-        heartbeatUrl: environment.baseUrl + 'api/heartbeat',
+        heartbeatUrl: environment.baseUrl + '/api/heartbeat',
       }
     }
   ],
