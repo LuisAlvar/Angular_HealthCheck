@@ -18,6 +18,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options => options.AddPolicy(name: "AngularPolicy", cfg => {
+  cfg.AllowAnyHeader();
+  cfg.AllowAnyMethod();
+  cfg.WithOrigins(builder.Configuration["AllowedCORS"]);
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,11 +35,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-builder.Services.AddCors(options => options.AddPolicy(name: "AngularPolicy", cfg => {
-  cfg.AllowAnyHeader();
-  cfg.AllowAnyMethod();
-  cfg.WithOrigins(builder.Configuration["AllowedCORS"]);
-}));
+
 
 app.UseAuthorization();
 
