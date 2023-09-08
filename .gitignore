@@ -5,6 +5,11 @@
 
 # appsettings files 
 appsettings.Production.json
+web.config
+profile.arm.json
+dotnet-tools.json
+
+/ServiceDependencies/*
 
 # User-specific files
 *.rsuser
